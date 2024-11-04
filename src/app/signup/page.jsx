@@ -15,36 +15,32 @@ export default function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setSuccess('');
-  
+    setSuccess(''); 
+
     try {
       const response = await fetch('/api/create-user', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({ name, email, password }),
       });
-  
-      let data;
-      try {
-        data = await response.json();
-      } catch (jsonError) {
-        setError('Unexpected server response');
-        console.error('Invalid JSON response:', jsonError);
-        return;
-      }
-  
+
       if (response.ok) {
+        const data = await response.json();
         setSuccess(data.message);
-        setTimeout(() => { router.push('/signin'); }, 2000);
+        setTimeout(() => {
+          router.push('/signin');
+        }, 2000);  
       } else {
-        setError(data.message || 'Error occurred during signup');
+        const errorData = await response.json();
+        setError(errorData.message);
       }
     } catch (err) {
       setError('An error occurred. Please try again.');
       console.error('Signup error:', err);
     }
-  };
-  
+  }
 
 
   return (
