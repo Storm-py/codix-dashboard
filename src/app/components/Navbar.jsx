@@ -23,10 +23,10 @@ export default function Navbar() {
   const [activeLink, setActiveLink] = useState("/"); 
   const { data: session } = useSession();
 
-  // Conditionally return null if the user is not logged in
-  if (!session) {
-    return null; // or return a different component/message
-  }
+  
+  // if (!session) {
+  //   return null; 
+  // }
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
