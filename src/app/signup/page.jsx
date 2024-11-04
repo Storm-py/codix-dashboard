@@ -18,32 +18,25 @@ export default function SignUp() {
     setSuccess(''); 
 
     try {
-
-      // const response = await axios.post('/api/create-user', {name , email, password})
-      const response = await fetch('/api/create-user', {
+      const response = await fetch('https://codix-test.vercel.app/api/create-user', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
       });
-
-      console.log("This is the response to the server", response)
-      
-      if (response.ok) {
-        const data = await response.json();
-        console.log("This is the data to the server", data)
-        setSuccess(data.message);
-        setTimeout(() => {
-          router.push('/signin');
-        }, 2000);  
-      } else {
-        const errorData = await response.json();
-        setError(errorData.message);
+  
+      console.log('Server response:', response);
+  
+      // Check if response is JSON
+      if (!response.headers.get('content-type')?.includes('application/json')) {
+        const textResponse = await response.text();
+        console.error('Non-JSON response:', textResponse);
+        throw new Error('Server returned a non-JSON response');
       }
-    } catch (err) {
-      setError('An error occurred. Please try again.');
-      console.error('Signup error:', err);
+  
+      const data = await response.json();
+      console.log('JSON data:', data);
+    } catch (error) {
+      console.error('Signup error:', error);
     }
   }
 
