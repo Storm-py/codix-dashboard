@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server'
+import dbConnect from '@/app/config/dbConnect'
 import { Blog } from '@/app/models/blogmodel'
 
 
 export async function GET() {
+  await dbConnect()
   try {
     const blogs = await Blog.find({})
     return NextResponse.json(blogs, {

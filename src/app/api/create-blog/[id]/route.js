@@ -1,4 +1,5 @@
 import { Blog } from '@/app/models/blogmodel';
+import dbConnect from '@/app/config/dbConnect'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -14,9 +15,9 @@ export async function OPTIONS() {
 }
 
 export async function GET(req, { params }) {
+  await dbConnect()
   const { id } = params;
 
-  console.log(id);
   try {
     const blog = await Blog.findById(id);
     if (!blog) return new Response(JSON.stringify({ message: "Blog not found" }), { status: 404 });

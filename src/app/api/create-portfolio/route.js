@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server'
+import dbConnect from '@/app/config/dbConnect'
 import {Portfolio} from "@/app/models/portfoliomodel"
 
 export async function GET() {
+  await dbConnect()
   try {
     const portfolios = await Portfolio.find({})
     return NextResponse.json(portfolios, {

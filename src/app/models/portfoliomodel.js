@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-mongoose.connect(`${process.env.MONGODBURL}`)
 
 const portfolioSchema = new mongoose.Schema(
     {
