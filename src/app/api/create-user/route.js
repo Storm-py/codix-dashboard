@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt'
 export async function POST(request) {
   try {
     const { name, email, password } = await request.json();
+    console.log(name,email,password)
 
     
     if (!name || !email || !password) {
