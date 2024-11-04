@@ -16,7 +16,7 @@ export const authoptions = NextAuth({
           }
           const passwordsMatch = await bcrypt.compare(password, user.password);
           if (!passwordsMatch) {
-            return null;
+            return "Your email or password is Incorrect";
           }
           return user;
         } catch (error) {

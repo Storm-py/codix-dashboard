@@ -21,8 +21,12 @@ import { signOut, useSession } from "next-auth/react";
 export default function Navbar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("/"); 
+  const { data: session } = useSession();
 
-  const { data: session } = useSession()
+  // Conditionally return null if the user is not logged in
+  if (!session) {
+    return null; // or return a different component/message
+  }
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -56,10 +60,9 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center space-x-4">
-        {
-            session? <button onClick={signOut} className="text-black px-4 py-1 focus:outline-none focus:text-gray-800 bg-gray-300 rounded-lg font-medium"> Sign Out
-          </button>:"signin"
-          }
+          <button onClick={signOut} className="text-black px-4 py-1 focus:outline-none focus:text-gray-800 bg-gray-300 rounded-lg font-medium">
+            Sign Out
+          </button>
           <button className="text-gray-600 focus:outline-none focus:text-gray-800">
             <ShoppingCart className="h-6 w-6" />
           </button>
@@ -69,7 +72,6 @@ export default function Navbar() {
           <button className="text-gray-600 focus:outline-none focus:text-gray-800">
             <Bell className="h-6 w-6" />
           </button>
-          
           <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
         </div>
       </nav>
