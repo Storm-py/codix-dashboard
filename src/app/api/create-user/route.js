@@ -3,34 +3,46 @@ import dbConnect from '@/app/config/dbConnect'
 import User from '@/app/models/User'
 import bcrypt from 'bcrypt'
 
-export async function POST(request) {
+export async function POST(req) {
   await dbConnect()
+  console.time("API Execution Time");
+
   try {
-    const body = await request.json()
-    // const { name, email, password } = await request.json()
-    // console.log(email,name,password)
+   
+    const { name, email, password } = await req.json()
+    console.log(email, name, password)
 
-    
-    // if (!name || !email || !password) {
-    //   return NextResponse.json({ message: 'Name, Email, and Password are required' }, { status: 400 })
-    // }
+    // Check if required fields are present
+    if (!name || !email || !password) {
+      return NextResponse.json(
+        { message: 'Name, Email, and Password are required' },
+        { status: 400 }
+      )
+    }
 
-    
+    // Hash the password
     const saltRounds = 10
-    const hashedPassword = await bcrypt.hash(body.password, saltRounds)
+    const hashedPassword = await bcrypt.hash(password, saltRounds)
 
-    body.password = hashedPassword
+    // Create new user in the database
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+    })
 
-    
-    const newUser = await User.create(body)
+    // Return success response
+    return NextResponse.json({ message: 'User created successfully' }, { status: 201 })
 
-    return NextResponse.json({ message: 'User created successfully', newUser }, { status: 201 })
   } catch (error) {
-    console.error('Error creating User:', error)
-    return NextResponse.json({ message: 'Internal server error' }, { status: 500 })
+    console.error("API Error:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+  } finally {
+    console.timeEnd("API Execution Time")
   }
 }
 
+// Handle pre-flight OPTIONS request
 export async function OPTIONS() {
   return NextResponse.json({}, {
     headers: {
