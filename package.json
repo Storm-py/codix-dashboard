@@ -1,0 +1,36 @@
+{
+  "name": "codix-admin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.21.1",
+    "axios": "^1.7.7",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "date-fns": "^4.1.0",
+    "jodit-react": "^4.1.2",
+    "lucide-react": "^0.447.0",
+    "mongoose": "^8.7.3",
+    "next": "14.2.14",
+    "next-auth": "^4.24.10",
+    "nodemailer": "^6.9.15",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-quill": "^2.0.0",
+    "react-toastify": "^10.0.6",
+    "recharts": "^2.12.7",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "eslint-config-next": "14.2.14",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1"
+  }
+}
