@@ -24,9 +24,9 @@ export default function Navbar() {
   const { data: session } = useSession();
 
   
-  // if (!session) {
-  //   return null; 
-  // }
+  if (!session) {
+    return null; 
+  }
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);

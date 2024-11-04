@@ -19,11 +19,11 @@ export default function BlogCreationForm() {
   const router = useRouter()
   const { data: session } = useSession()
 
-//   useEffect(() => {
-//     if (!session) {
-//         router.push("/signin")
-//     }
-// }, [session, router])
+  useEffect(() => {
+    if (!session) {
+        router.push("/signin")
+    }
+}, [session, router])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
