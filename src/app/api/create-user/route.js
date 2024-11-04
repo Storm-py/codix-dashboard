@@ -19,10 +19,12 @@ export async function POST(request) {
     const saltRounds = 10
     const hashedPassword = await bcrypt.hash(body.password, saltRounds)
 
+    body.password = hashedPassword
+
     
     const newUser = await User.create(body)
 
-    return NextResponse.json({ message: 'User created successfully', User: newUser }, { status: 201 })
+    return NextResponse.json({ message: 'User created successfully', newUser }, { status: 201 })
   } catch (error) {
     console.error('Error creating User:', error)
     return NextResponse.json({ message: 'Internal server error' }, { status: 500 })

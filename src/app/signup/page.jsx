@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import axios from 'axios';
 
 export default function SignUp() {
 
@@ -18,13 +19,15 @@ export default function SignUp() {
     setSuccess(''); 
 
     try {
-      const response = await fetch('/api/create-user', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
+
+      const response = await axios.post('/api/create-user', {name , email, password})
+      // const response = await fetch('/api/create-user', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({ name, email, password }),
+      // });
 
       console.log("This is the response to the server", response)
       
