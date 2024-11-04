@@ -6,24 +6,21 @@ import bcrypt from 'bcrypt'
 export async function POST(request) {
   await dbConnect()
   try {
-    const { name, email, password } = await request.json()
-    console.log(email,name,password)
+    const body = await request.json()
+    // const { name, email, password } = await request.json()
+    // console.log(email,name,password)
 
     
-    if (!name || !email || !password) {
-      return NextResponse.json({ message: 'Name, Email, and Password are required' }, { status: 400 })
-    }
+    // if (!name || !email || !password) {
+    //   return NextResponse.json({ message: 'Name, Email, and Password are required' }, { status: 400 })
+    // }
 
     
     const saltRounds = 10
-    const hashedPassword = await bcrypt.hash(password, saltRounds)
+    const hashedPassword = await bcrypt.hash(body.password, saltRounds)
 
     
-    const newUser = await User.create({
-      name,
-      email,
-      password: hashedPassword,
-    })
+    const newUser = await User.create(body)
 
     return NextResponse.json({ message: 'User created successfully', User: newUser }, { status: 201 })
   } catch (error) {
