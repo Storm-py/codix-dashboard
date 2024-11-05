@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server'
 import dbConnect from '@/app/config/dbConnect'
 import User from '@/app/models/User'
 import bcrypt from 'bcrypt'
-import corsMiddleware from '../../lib/corsMiddleware';
 
 export async function POST(request) {
   await dbConnect()
@@ -26,7 +25,7 @@ export async function POST(request) {
       password: hashedPassword,
     })
 
-    return NextResponse.json({ message: 'User created successfully', newUser }, { status: 201 })
+    return NextResponse.json({ message: 'User created successfully', User: newUser }, { status: 201 })
   } catch (error) {
     console.error('Error creating User:', error)
     return NextResponse.json({ message: 'Internal server error' }, { status: 500 })
@@ -42,8 +41,3 @@ export async function OPTIONS() {
     },
   })
 }
-
-export default async (req, res) => {
-  await corsMiddleware(req, res, () => {});
-  return handler(req, res);
-};

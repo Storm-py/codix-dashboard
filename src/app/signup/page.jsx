@@ -16,36 +16,32 @@ export default function SignUp() {
     e.preventDefault();
     setError('');
     setSuccess(''); 
-
+  
     try {
-
-      // const response = await axios.post('/api/create-user', {name , email, password})
-      const response = await fetch('https://codix-test.vercel.app/api/create-user', {
+      const response = await fetch('/api/create-user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ fullName, email, password }),
       });
-
-      console.log("This is the response to the server", response)
       
       if (response.ok) {
         const data = await response.json();
-        console.log("This is the data to the server", data)
         setSuccess(data.message);
         setTimeout(() => {
           router.push('/signin');
         }, 2000);  
       } else {
-        const errorData = await response.json();
-        setError(errorData.message);
+        const errorData = await response.json().catch(() => ({ message: 'Unexpected error' }));
+        setError(errorData.message || 'An error occurred.');
       }
     } catch (err) {
       setError('An error occurred. Please try again.');
       console.error('Signup error:', err);
     }
-  }
+  };
+  
 
 
   return (
