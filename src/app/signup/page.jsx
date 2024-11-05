@@ -20,7 +20,7 @@ export default function SignUp() {
     try {
 
       // const response = await axios.post('/api/create-user', {name , email, password})
-      const response = await fetch('/api/create-user', {
+      const response = await fetch('https://codix-test.vercel.app/api/create-user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

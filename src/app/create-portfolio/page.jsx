@@ -29,7 +29,7 @@ export default function BlogCreationForm() {
     e.preventDefault()
     
     try {
-      const response = await fetch('/api/create-portfolio', {
+      const response = await fetch('https://codix-test.vercel.app/api/create-portfolio', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

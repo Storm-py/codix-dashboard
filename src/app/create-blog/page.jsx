@@ -28,7 +28,7 @@ export default function BlogCreationForm() {
     e.preventDefault()
     
     try {
-      const response = await fetch('/api/create-blog', {
+      const response = await fetch('https://codix-test.vercel.app/api/create-blog', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
