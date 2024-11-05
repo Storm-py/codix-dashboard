@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function SignUp() {
 
-  const [fullName, setFullName] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -16,16 +16,16 @@ export default function SignUp() {
     e.preventDefault();
     setError('');
     setSuccess(''); 
-  
+
     try {
       const response = await fetch('/api/create-user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ fullName, email, password }),
+        body: JSON.stringify({ name, email, password }),
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         setSuccess(data.message);
@@ -33,15 +33,14 @@ export default function SignUp() {
           router.push('/signin');
         }, 2000);  
       } else {
-        const errorData = await response.json().catch(() => ({ message: 'Unexpected error' }));
-        setError(errorData.message || 'An error occurred.');
+        const errorData = await response.json();
+        setError(errorData.message);
       }
     } catch (err) {
       setError('An error occurred. Please try again.');
       console.error('Signup error:', err);
     }
-  };
-  
+  }
 
 
   return (
@@ -60,10 +59,12 @@ export default function SignUp() {
               <div className="mt-1">
                 <input
                   id="name"
-                  name="fullName"
+                  name="name"
                   type="text"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
+                  autoComplete="name"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="John Doe"
                 />
@@ -79,6 +80,8 @@ export default function SignUp() {
                   id="email"
                   name="email"
                   type="email"
+                  autoComplete="email"
+                  required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -96,6 +99,8 @@ export default function SignUp() {
                   id="password"
                   name="password"
                   type="password"
+                  autoComplete="new-password"
+                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
