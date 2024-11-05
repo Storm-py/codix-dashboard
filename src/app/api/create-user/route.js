@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import dbConnect from '@/app/config/dbConnect'
 import User from '@/app/models/User'
 import bcrypt from 'bcrypt'
+import corsMiddleware from '../../lib/corsMiddleware';
 
 export async function POST(request) {
   await dbConnect()
@@ -41,3 +42,8 @@ export async function OPTIONS() {
     },
   })
 }
+
+export default async (req, res) => {
+  await corsMiddleware(req, res, () => {});
+  return handler(req, res);
+};
