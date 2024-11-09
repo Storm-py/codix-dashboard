@@ -1,71 +1,84 @@
 import { NextResponse } from 'next/server'
 import dbConnect from '@/app/config/dbConnect'
 import { Blog } from '@/app/models/blogmodel'
-import cors from '../../../lib/cors' // Import CORS middleware
+
+// Set CORS headers
+const setCorsHeaders = (response) => {
+  response.headers.set('Access-Control-Allow-Origin', '*');
+  response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+};
 
 export async function GET(request) {
-  // Apply CORS middleware
-  const response = NextResponse.next()
+  // Open DB connection
+  await dbConnect()
 
-  // Call the CORS middleware
-  cors(request, response, async () => {
-    await dbConnect()
-    try {
-      const blogs = await Blog.find({})
-      return NextResponse.json(blogs, {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        },
-      })
-    } catch (error) {
-      console.error('Error fetching blogs:', error)
-      return NextResponse.json({ message: 'Internal server error' }, { status: 500 })
-    }
-  })
+  try {
+    const blogs = await Blog.find({})
+
+    // Create response
+    const response = NextResponse.json(blogs)
+
+    // Apply CORS headers to response
+    setCorsHeaders(response)
+
+    return response
+  } catch (error) {
+    console.error('Error fetching blogs:', error)
+    const response = NextResponse.json({ message: 'Internal server error' }, { status: 500 })
+
+    // Apply CORS headers to response
+    setCorsHeaders(response)
+
+    return response
+  }
 }
 
 export async function POST(request) {
-  // Apply CORS middleware
-  const response = NextResponse.next()
-  
-  // Call the CORS middleware
-  cors(request, response, async () => {
-    await dbConnect()
-    try {
-      const { title, content, coverImage } = await request.json()
+  // Open DB connection
+  await dbConnect()
 
-      if (!title || !content || !coverImage) {
-        return NextResponse.json({ message: 'Title, Cover Image, and content are required' }, { status: 400 })
-      }
+  try {
+    const { title, content, coverImage } = await request.json()
 
-      const newBlog = await Blog.create({
-        title,
-        coverImage,
-        content,
-      })
-
-      return NextResponse.json({ message: 'Blog post created successfully', blog: newBlog }, { status: 201 })
-    } catch (error) {
-      console.error('Error creating blog post:', error)
-      return NextResponse.json({ message: 'Internal server error' }, { status: 500 })
+    if (!title || !content || !coverImage) {
+      const response = NextResponse.json({ message: 'Title, Cover Image, and content are required' }, { status: 400 })
+      
+      // Apply CORS headers to response
+      setCorsHeaders(response)
+      
+      return response
     }
-  })
+
+    const newBlog = await Blog.create({
+      title,
+      coverImage,
+      content,
+    })
+
+    const response = NextResponse.json({ message: 'Blog post created successfully', blog: newBlog }, { status: 201 })
+
+    // Apply CORS headers to response
+    setCorsHeaders(response)
+
+    return response
+  } catch (error) {
+    console.error('Error creating blog post:', error)
+    const response = NextResponse.json({ message: 'Internal server error' }, { status: 500 })
+    
+    // Apply CORS headers to response
+    setCorsHeaders(response)
+    
+    return response
+  }
 }
 
 export async function OPTIONS(request) {
-  // Apply CORS middleware
-  const response = NextResponse.next()
-
-  // Call the CORS middleware
-  cors(request, response, () => {
-    return NextResponse.json({}, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-      },
-    })
-  })
+  // Handle preflight request
+  const response = NextResponse.json({}, { status: 200 })
+  
+  // Apply CORS headers to response
+  setCorsHeaders(response)
+  
+  return response
 }
