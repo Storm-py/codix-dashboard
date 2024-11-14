@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
       >
         <SessionWrapper>
         <PathChecker>
-        <Navbar/>
+        <Navbar />
         {children}
         </PathChecker>
         </SessionWrapper>

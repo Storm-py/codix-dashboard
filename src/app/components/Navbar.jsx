@@ -136,9 +136,9 @@ export default function Navbar() {
               </div>
             </div>
             <div className="px-4 py-2 mt-6">
-              <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              {/*<h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
                 Apps
-              </h2>
+              </h2>*/}
               <div className="mt-2 space-y-1">
                 <Link
                   href="/notes"
@@ -150,7 +150,7 @@ export default function Navbar() {
                   <FileText className="h-5 w-5 mr-3" />
                   Notes
                 </Link>
-                <Link
+                {/* <Link
                   href="/mail"
                   onClick={() => handleLinkClick("/mail")}
                   className={`flex items-center px-6 py-3 text-lg font-medium rounded-lg ${
@@ -159,7 +159,7 @@ export default function Navbar() {
                 >
                   <Mail className="h-5 w-5 mr-3" />
                   Mail
-                </Link>
+                </Link> */}
                 <Link
                   href="/calendar"
                   onClick={() => handleLinkClick("/calendar")}
@@ -170,7 +170,7 @@ export default function Navbar() {
                   <Calendar className="h-5 w-5 mr-3" />
                   Calendar
                 </Link>
-                <Link
+                {/* <Link
                   href="/customers"
                   onClick={() => handleLinkClick("/customers")}
                   className={`flex items-center px-6 py-3 text-lg font-medium rounded-lg ${
@@ -179,7 +179,7 @@ export default function Navbar() {
                 >
                   <Users className="h-5 w-5 mr-3" />
                   Customers
-                </Link>
+                </Link> */}
               </div>
             </div>
           </nav>

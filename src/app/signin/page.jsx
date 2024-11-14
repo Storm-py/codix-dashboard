@@ -217,7 +217,7 @@ export default function SignIn() {
         </div>
       </div>
 
-      <div className="mt-6 text-center">
+      {/* <div className="mt-6 text-center">
         <p className="text-sm text-black">
           Dont have an account?{" "}
           <Link
@@ -227,7 +227,7 @@ export default function SignIn() {
             Sign up
           </Link>
         </p>
-      </div>
+      </div> */}
     </div>
   );
 }
